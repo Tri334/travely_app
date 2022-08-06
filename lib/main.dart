@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sizer/sizer.dart';
 import 'package:travely_app/ui/landing/landing_page.dart';
+import 'package:travely_app/ui/landing/tutorial_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,18 +13,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routeInformationProvider: _goRouter.routeInformationProvider,
-      routeInformationParser: _goRouter.routeInformationParser,
-      routerDelegate: _goRouter.routerDelegate,
-      title: 'Travely',
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp.router(
+        routeInformationProvider: _goRouter.routeInformationProvider,
+        routeInformationParser: _goRouter.routeInformationParser,
+        routerDelegate: _goRouter.routerDelegate,
+        title: 'Travely',
+      );
+    });
   }
 }
 
 final GoRouter _goRouter = GoRouter(routes: [
   GoRoute(
-    path: '/',
+    path: LandingPage.routeName,
     builder: (context, state) => const LandingPage(),
+  ),
+  GoRoute(
+    path: TutorialPage.routeName,
+    builder: (context, state) => const TutorialPage(),
   ),
 ]);

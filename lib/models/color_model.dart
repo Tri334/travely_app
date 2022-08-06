@@ -32,3 +32,21 @@ var colorStyles = ColorStyles(
     grey50: const Color(0xffE0E0E0),
     grey10: const Color(0xffF1F1F1),
     grey5: const Color(0xffECEFF4));
+
+class DecorationLanding {
+  String img1, img2, img3;
+  String map;
+  DecorationLanding({
+    required this.img1,
+    required this.img2,
+    required this.img3,
+    required this.map,
+  });
+}
+
+var decorImg = DecorationLanding(
+  img1: 'assets/imgs/r1.png',
+  img2: 'assets/imgs/r2.png',
+  img3: 'assets/imgs/r3.png',
+  map: 'assets/imgs/map.png',
+);
