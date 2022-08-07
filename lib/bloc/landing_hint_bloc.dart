@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:travely_app/models/landing_model.dart';
@@ -10,5 +12,11 @@ class LandingHintBloc extends Bloc<LandingHintEvent, String> {
     on<EventPageChange>((event, emit) {
       event.page != landingContent.length - 1 ? emit('Skip') : emit('Done');
     });
+  }
+  @override
+  void onChange(Change<String> change) {
+    // TODO: implement onChange
+    super.onChange(change);
+    print(change);
   }
 }

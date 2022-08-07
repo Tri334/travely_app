@@ -50,3 +50,15 @@ var decorImg = DecorationLanding(
   img3: 'assets/imgs/r3.png',
   map: 'assets/imgs/map.png',
 );
+Color getColor(Set<MaterialState> states) {
+  const Set<MaterialState> interactiveStates = <MaterialState>{
+    MaterialState.pressed,
+    MaterialState.hovered,
+    MaterialState.focused,
+    MaterialState.selected
+  };
+  if (states.any(interactiveStates.contains)) {
+    return colorStyles.blue40;
+  }
+  return colorStyles.grey50;
+}

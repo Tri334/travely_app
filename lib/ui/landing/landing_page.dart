@@ -1,16 +1,7 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
-import 'package:travely_app/models/color_model.dart';
-import 'package:travely_app/ui/landing/tutorial_page.dart';
+part of '../../main.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
-
-  static String routeName = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +90,7 @@ class LandingPage extends StatelessWidget {
             left: 20,
             right: 20,
             child: InkWell(
-              onTap: () => context.goNamed(TutorialPage.routeName),
+              onTap: () => context.goNamed('landing'),
               child: Container(
                 height: 7.h,
                 width: 80.w,

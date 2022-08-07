@@ -1,17 +1,7 @@
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:travely_app/bloc/landing_hint_bloc.dart';
-import 'package:travely_app/models/color_model.dart';
-import 'package:travely_app/models/landing_model.dart';
+part of '../../main.dart';
 
 class TutorialPage extends StatelessWidget {
   TutorialPage({Key? key}) : super(key: key);
-  static String routeName = 'landing';
 
   final PageController _pageController = PageController(initialPage: 0);
 
@@ -23,7 +13,7 @@ class TutorialPage extends StatelessWidget {
           Expanded(
             flex: 8,
             child: Container(
-                color: Colors.green,
+                color: Colors.transparent,
                 child: PageView.builder(
                     allowImplicitScrolling: false,
                     controller: _pageController,
@@ -69,14 +59,29 @@ class TutorialPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: colorStyles.blue40,
-                    radius: 25,
-                    child: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 20.sp,
-                      color: Colors.white,
-                    ),
+                  BlocBuilder<LandingHintBloc, String>(
+                    builder: (context, state) {
+                      return GestureDetector(
+                        onTap: () {
+                          if (state.toLowerCase() != 'done') {
+                            _pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut);
+                          } else {
+                            context.goNamed('login');
+                          }
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: colorStyles.blue40,
+                          radius: 25,
+                          child: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 20.sp,
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   SmoothPageIndicator(
                     controller: _pageController,
@@ -89,27 +94,30 @@ class TutorialPage extends StatelessWidget {
                         dotColor: colorStyles.grey50,
                         spacing: 12),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BlocBuilder<LandingHintBloc, String>(
-                        builder: (context, state) {
-                          return Text(
-                            state,
-                            textAlign: TextAlign.justify,
-                            style: GoogleFonts.poppins(
-                                color: colorStyles.black90,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400),
-                          );
-                        },
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 10.sp,
-                        color: colorStyles.black90,
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () => context.goNamed('login'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BlocBuilder<LandingHintBloc, String>(
+                          builder: (context, state) {
+                            return Text(
+                              state,
+                              textAlign: TextAlign.justify,
+                              style: GoogleFonts.poppins(
+                                  color: colorStyles.black90,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400),
+                            );
+                          },
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 10.sp,
+                          color: colorStyles.black90,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )),
