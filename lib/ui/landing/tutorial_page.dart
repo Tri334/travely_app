@@ -1,14 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:travely_app/bloc/landing_hint_bloc.dart';
 import 'package:travely_app/models/color_model.dart';
+import 'package:travely_app/models/landing_model.dart';
 
 class TutorialPage extends StatelessWidget {
   TutorialPage({Key? key}) : super(key: key);
   static String routeName = 'landing';
 
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -19,40 +24,45 @@ class TutorialPage extends StatelessWidget {
             flex: 8,
             child: Container(
                 color: Colors.green,
-                child: PageView(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 15.h, bottom: 5.h),
-                          child: Container(
-                              color: Colors.transparent,
-                              height: 25.h,
+                child: PageView.builder(
+                    allowImplicitScrolling: false,
+                    controller: _pageController,
+                    itemCount: landingContent.length,
+                    onPageChanged: (value) => context
+                        .read<LandingHintBloc>()
+                        .add(EventPageChange(value)),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 15.h, bottom: 5.h),
+                            child: Container(
+                                color: Colors.transparent,
+                                height: 25.h,
+                                width: 80.w,
+                                child: Image.asset(
+                                  landingContent[index].img,
+                                  fit: BoxFit.contain,
+                                )),
+                          ),
+                          Expanded(
+                            child: Container(
                               width: 80.w,
-                              child: Image.asset(
-                                'assets/imgs/afterL1.png',
-                                fit: BoxFit.contain,
-                              )),
-                        ),
-                        Expanded(
-                          child: Container(
-                            width: 80.w,
-                            color: Colors.transparent,
-                            child: Text(
-                              'Get best guidance the beauty of the world on everything you need to know about traveling backpacker',
-                              textAlign: TextAlign.justify,
-                              style: GoogleFonts.comfortaa(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: colorStyles.black10),
+                              color: Colors.transparent,
+                              child: Text(
+                                landingContent[index].textContent,
+                                textAlign: TextAlign.justify,
+                                style: GoogleFonts.comfortaa(
+                                    fontSize: 17.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: colorStyles.black10),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                )),
+                        ],
+                      );
+                    })),
           ),
           Expanded(
               flex: 4,
@@ -70,7 +80,7 @@ class TutorialPage extends StatelessWidget {
                   ),
                   SmoothPageIndicator(
                     controller: _pageController,
-                    count: 3,
+                    count: landingContent.length,
                     effect: ExpandingDotsEffect(
                         radius: 14,
                         dotHeight: 1.2.h,
@@ -82,19 +92,23 @@ class TutorialPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Skip',
-                        textAlign: TextAlign.justify,
-                        style: GoogleFonts.poppins(
-                            color: colorStyles.black90,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400),
+                      BlocBuilder<LandingHintBloc, String>(
+                        builder: (context, state) {
+                          return Text(
+                            state,
+                            textAlign: TextAlign.justify,
+                            style: GoogleFonts.poppins(
+                                color: colorStyles.black90,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400),
+                          );
+                        },
                       ),
                       Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 10.sp,
                         color: colorStyles.black90,
-                      )
+                      ),
                     ],
                   ),
                 ],
