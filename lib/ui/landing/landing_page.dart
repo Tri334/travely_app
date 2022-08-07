@@ -99,7 +99,7 @@ class LandingPage extends StatelessWidget {
             left: 20,
             right: 20,
             child: InkWell(
-              onTap: () => GoRouter.of(context).go(TutorialPage.routeName),
+              onTap: () => context.goNamed(TutorialPage.routeName),
               child: Container(
                 height: 7.h,
                 width: 80.w,
