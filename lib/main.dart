@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:travely_app/bloc/landing_hint/landing_hint_bloc.dart';
 import 'package:travely_app/bloc/otp_verification/otp_verification_bloc.dart';
+import 'package:travely_app/models/img_model.dart';
 import 'package:travely_app/models/landing_model.dart';
 import 'package:travely_app/models/login_model.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
 }
 
 final GoRouter _goRouter = GoRouter(routes: [
-  GoRoute(path: '/', builder: (context, state) => const LandingPage(), routes: [
+  GoRoute(path: '/', builder: (context, state) => const HomePage(), routes: [
     GoRoute(
         path: 'landing',
         name: 'landing',
