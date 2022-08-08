@@ -90,14 +90,14 @@ class LoginPage extends StatelessWidget {
                           ],
                         ),
                         const CustomButton(
-                            route: 'sign_up', namaButton: 'Login'),
+                            route: 'otp_verification', namaButton: 'Login'),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 40),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Don\'t have an account?',
+                                'don\'t have an account?',
                                 style: GoogleFonts.poppins(
                                   color: colorStyles.black10,
                                   fontSize: 11.sp,
@@ -107,13 +107,18 @@ class LoginPage extends StatelessWidget {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text(
-                                'Sign up',
-                                style: GoogleFonts.poppins(
-                                  decoration: TextDecoration.underline,
-                                  color: colorStyles.blue90,
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
+                              GestureDetector(
+                                onTap: () {
+                                  context.goNamed('sign_up');
+                                },
+                                child: Text(
+                                  'Sign up',
+                                  style: GoogleFonts.poppins(
+                                    decoration: TextDecoration.underline,
+                                    color: colorStyles.blueLink,
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ],

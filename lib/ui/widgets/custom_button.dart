@@ -6,7 +6,6 @@ class CustomButton extends StatelessWidget {
     required this.route,
     required this.namaButton,
   }) : super(key: key);
-
   final String route;
   final String namaButton;
 
