@@ -77,6 +77,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double tes = 5.5.w;
+
     bool isSelected = true;
     List<String> bucketListCategory = [
       'All',
@@ -88,7 +90,7 @@ class Home extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+          padding: EdgeInsets.symmetric(horizontal: 5.5.w, vertical: 2.h),
           child: Container(
             color: Colors.red,
             child: Column(
@@ -133,7 +135,7 @@ class Home extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(26)),
                         prefixIcon: const Icon(Icons.search),
-                        hintText: 'Search...',
+                        hintText: '${tes.toString()}',
                         suffixIcon:
                             const Icon(Icons.settings_input_composite_sharp)),
                   ),
