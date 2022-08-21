@@ -1,6 +1,7 @@
 part of 'register_cubit.dart';
 
 class RegisterState extends Equatable {
+  final User? user;
   final String phone;
   final String userName;
   final bool termCondition;
@@ -11,6 +12,7 @@ class RegisterState extends Equatable {
   final FormzStatus status;
 
   const RegisterState({
+    this.user,
     this.termCondition = false,
     this.email = const Email.pure(),
     this.password = const Password.pure(),
@@ -21,18 +23,18 @@ class RegisterState extends Equatable {
     this.phone = '',
   });
 
-  RegisterState copyWith({
-    UserTesting? user,
-    bool? termCondition,
-    Password? password,
-    ConfirmPassword? confirmPassword,
-    Email? email,
-    FormzStatus? status,
-    String? errorMessage,
-    String? userName,
-    String? phone,
-  }) {
+  RegisterState copyWith(
+      {bool? termCondition,
+      Password? password,
+      ConfirmPassword? confirmPassword,
+      Email? email,
+      FormzStatus? status,
+      String? errorMessage,
+      String? userName,
+      String? phone,
+      User? user}) {
     return RegisterState(
+      user: user ?? this.user,
       email: email ?? this.email,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       password: password ?? this.password,

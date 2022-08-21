@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
     Center(child: Text('Location')),
     const Center(child: Text('+')),
     const Center(child: Text('Feed')),
-    const Center(child: Text('Profile')),
+    ProfilePage(),
   ];
 
   int selectedIndex = 0;
@@ -67,6 +67,24 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _homeSelector.elementAt(selectedIndex),
     );
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: ElevatedButton(
+            onPressed: () async {
+              await FirebaseAuth.instance
+                  .signOut()
+                  .then((value) => context.goNamed('/'));
+            },
+            child: Text('Sign Out')));
   }
 }
 

@@ -13,3 +13,7 @@ class EventPageChange extends LandingHintEvent {
   @override
   List<Object> get props => [page];
 }
+
+class EventPageInit extends LandingHintEvent {
+  const EventPageInit() : super(0);
+}

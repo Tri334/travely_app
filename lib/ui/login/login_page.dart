@@ -3,12 +3,8 @@ part of '../../main.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    bool remember = false;
     return Scaffold(
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -38,11 +34,11 @@ class LoginPage extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            // CustomInputLogin(hint: 'Username'),
-                            // SizedBox(
-                            //   height: 2.h,
-                            // ),
-                            // CustomInputLogin(hint: 'Password'),
+                            const InputLoginUsername(),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            const InputLoginPassword(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -76,18 +72,72 @@ class LoginPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                Text(
-                                  'Forgot Password?',
-                                  style: GoogleFonts.poppins(
-                                      color: colorStyles.black50,
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w500),
+                                GestureDetector(
+                                  onTap: () =>
+                                      context.goNamed('forgot_password'),
+                                  child: Text(
+                                    'Forgot Password?',
+                                    style: GoogleFonts.poppins(
+                                        color: colorStyles.black50,
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 )
                               ],
                             )
                           ],
                         ),
-                        const CustomButton(namaButton: 'Login'),
+                        BlocBuilder<LoginCubit, LoginState>(
+                          builder: (context, state) {
+                            bool enable = false;
+                            if (state.email.isNotEmpty &&
+                                state.password.isNotEmpty) {
+                              enable = true;
+                            } else {
+                              enable = false;
+                            }
+                            return GestureDetector(
+                              onTap: () {
+                                enable
+                                    ? context
+                                        .read<LoginCubit>()
+                                        .signInWithEmailAndPassword()
+                                        .then((_) => {
+                                              if (state.status ==
+                                                  LoginStatus.loginFailure)
+                                                {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return const AlertDialog(
+                                                        content: Text(
+                                                            'Username or Password Invalid'),
+                                                      );
+                                                    },
+                                                  )
+                                                }
+                                              else
+                                                {
+                                                  if (state.user != null)
+                                                    {
+                                                      state.user!.emailVerified
+                                                          ? context
+                                                              .goNamed('home')
+                                                          : context.goNamed(
+                                                              'verify',
+                                                              extra: state.user)
+                                                    }
+                                                }
+                                            })
+                                    : null;
+                              },
+                              child: CustomButton(
+                                namaButton: 'Login',
+                                enable: enable,
+                              ),
+                            );
+                          },
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 40),
                           child: Row(

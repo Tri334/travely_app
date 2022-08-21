@@ -4,6 +4,7 @@ class TutorialPage extends StatelessWidget {
   TutorialPage({Key? key}) : super(key: key);
 
   final PageController _pageController = PageController(initialPage: 0);
+  final LandingHintBloc _landingHintBloc = LandingHintBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +19,8 @@ class TutorialPage extends StatelessWidget {
                     allowImplicitScrolling: false,
                     controller: _pageController,
                     itemCount: landingContent.length,
-                    onPageChanged: (value) => context
-                        .read<LandingHintBloc>()
-                        .add(EventPageChange(value)),
+                    onPageChanged: (value) =>
+                        _landingHintBloc.add(EventPageChange(value)),
                     itemBuilder: (context, index) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -60,6 +60,7 @@ class TutorialPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   BlocBuilder<LandingHintBloc, String>(
+                    bloc: _landingHintBloc,
                     builder: (context, state) {
                       return GestureDetector(
                         onTap: () {
@@ -100,6 +101,7 @@ class TutorialPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         BlocBuilder<LandingHintBloc, String>(
+                          bloc: _landingHintBloc,
                           builder: (context, state) {
                             return Text(
                               state,

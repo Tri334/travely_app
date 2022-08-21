@@ -43,7 +43,7 @@ class RegisterPage extends StatelessWidget {
                 height: 45.h,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Expanded(
                       child: InputUsername(),
                     ),
@@ -137,6 +137,14 @@ class RegisterPage extends StatelessWidget {
                     enable = true;
                   }
                   return GestureDetector(
+                      onTap: () {
+                        context
+                            .read<RegisterCubit>()
+                            .signUpEmailAndPassword()
+                            .then((value) {
+                          context.goNamed('verify', extra: state.user);
+                        });
+                      },
                       child:
                           CustomButton(namaButton: 'Sign Up', enable: enable));
                 },

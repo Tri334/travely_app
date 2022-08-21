@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:formz/formz.dart';
-import 'package:travely_app/models/firebase_models/user2_models.dart';
 import 'package:travely_app/models/form_validator/confirm_password.dart';
 import 'package:travely_app/models/form_validator/email.dart';
 import 'package:travely_app/models/form_validator/password.dart';
@@ -53,9 +52,12 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   Future signUpEmailAndPassword() async {
     try {
-      FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: state.email.value, password: state.password.value);
-      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: state.email.value, password: state.password.value)
+          .then((value) => emit(state.copyWith(
+              status: FormzStatus.submissionSuccess,
+              user: FirebaseAuth.instance.currentUser)));
     } catch (e) {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }

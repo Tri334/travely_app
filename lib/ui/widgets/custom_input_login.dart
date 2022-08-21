@@ -38,6 +38,7 @@ class InputLoginPassword extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         return TextField(
+          obscureText: false,
           onChanged: (value) => context.read<LoginCubit>().loginPassword(value),
           style:
               GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12.sp),
@@ -49,7 +50,7 @@ class InputLoginPassword extends StatelessWidget {
               errorBorder: errorStyles,
               border: focusedStyles,
               focusedBorder: focusedStyles,
-              hintText: 'Email'),
+              hintText: 'Password'),
         );
       },
     );
