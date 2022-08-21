@@ -38,37 +38,35 @@ class LoginPage extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            CustomInputLogin(
-                                textEditingController: _usernameController,
-                                hint: 'Username'),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            CustomInputLogin(
-                                textEditingController: _passwordController,
-                                hint: 'Password'),
+                            // CustomInputLogin(hint: 'Username'),
+                            // SizedBox(
+                            //   height: 2.h,
+                            // ),
+                            // CustomInputLogin(hint: 'Password'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
-                                    StatefulBuilder(builder: (context, state) {
-                                      return Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(3)),
-                                        value: remember,
-                                        onChanged: (bool? value) {
-                                          state(() {
-                                            remember = value!;
-                                          });
-                                        },
-                                      );
-                                    }),
+                                    BlocBuilder<LoginCubit, LoginState>(
+                                      builder: (context, state) {
+                                        return Checkbox(
+                                          checkColor: Colors.white,
+                                          fillColor:
+                                              MaterialStateProperty.resolveWith(
+                                                  getColor),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(3)),
+                                          value: state.remember,
+                                          onChanged: (bool? value) {
+                                            context
+                                                .read<LoginCubit>()
+                                                .checkRemember();
+                                          },
+                                        );
+                                      },
+                                    ),
                                     Text(
                                       'Remember me',
                                       style: GoogleFonts.poppins(
@@ -89,8 +87,7 @@ class LoginPage extends StatelessWidget {
                             )
                           ],
                         ),
-                        const CustomButton(
-                            route: 'otp_verification', namaButton: 'Login'),
+                        const CustomButton(namaButton: 'Login'),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 40),
                           child: Row(

@@ -1,16 +1,10 @@
 part of '../../main.dart';
 
 class RegisterPage extends StatelessWidget {
-  RegisterPage({Key? key}) : super(key: key);
-
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool agree = false;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -34,7 +28,7 @@ class RegisterPage extends StatelessWidget {
             children: [
               Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 3.h),
+                  padding: EdgeInsets.symmetric(vertical: 2.5.h),
                   child: Text(
                     'Sign up',
                     style: GoogleFonts.poppins(
@@ -46,20 +40,25 @@ class RegisterPage extends StatelessWidget {
               ),
               SizedBox(
                 width: 80.w,
-                height: 35.h,
+                height: 45.h,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomInputLogin(
-                        textEditingController: _usernameController,
-                        hint: 'Username'),
-                    CustomInputLogin(
-                        textEditingController: _phoneController, hint: 'Phone'),
-                    CustomInputLogin(
-                        textEditingController: _emailController, hint: 'Email'),
-                    CustomInputLogin(
-                        textEditingController: _passwordController,
-                        hint: 'Password'),
+                    Expanded(
+                      child: InputUsername(),
+                    ),
+                    Expanded(
+                      child: InputPhone(),
+                    ),
+                    Expanded(
+                      child: InputEmail(),
+                    ),
+                    Expanded(
+                      child: InputPassword(),
+                    ),
+                    Expanded(
+                      child: InputConfirmPassword(),
+                    ),
                   ],
                 ),
               ),
@@ -67,20 +66,23 @@ class RegisterPage extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 1.5.h),
                 child: Row(
                   children: [
-                    StatefulBuilder(builder: (context, state) {
-                      return Checkbox(
-                        checkColor: Colors.white,
-                        fillColor: MaterialStateProperty.resolveWith(getColor),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3)),
-                        value: agree,
-                        onChanged: (bool? value) {
-                          state(() {
-                            agree = value!;
-                          });
-                        },
-                      );
-                    }),
+                    BlocBuilder<RegisterCubit, RegisterState>(
+                      buildWhen: (previous, current) =>
+                          previous.termCondition != current.termCondition,
+                      builder: (context, state) {
+                        return Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3)),
+                          value: state.termCondition,
+                          onChanged: (bool? value) {
+                            context.read<RegisterCubit>().checkTermCondition();
+                          },
+                        );
+                      },
+                    ),
                     Row(
                       children: [
                         Text(
@@ -116,7 +118,29 @@ class RegisterPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const CustomButton(route: 'login', namaButton: 'Sign Up'),
+              BlocBuilder<RegisterCubit, RegisterState>(
+                builder: (context, state) {
+                  // log('Refrehs');
+                  // log(state.termCondition.toString());
+                  // log(state.password.invalid.toString());
+                  // log(state.confirmPassword.invalid.toString());
+                  // log("Email:" + state.email.value.length.toString());
+                  bool enable = false;
+                  if (state.email.invalid == true ||
+                      state.termCondition == false ||
+                      state.password.invalid == true ||
+                      state.confirmPassword.invalid == true ||
+                      state.userName.length < 2 ||
+                      state.phone.length < 2) {
+                    enable = false;
+                  } else {
+                    enable = true;
+                  }
+                  return GestureDetector(
+                      child:
+                          CustomButton(namaButton: 'Sign Up', enable: enable));
+                },
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 1.h),
                 child: Row(

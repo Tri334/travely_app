@@ -148,7 +148,7 @@ class OtpVerification extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 2.5.h),
-              child: const CustomButton(route: 'home', namaButton: 'Verify'),
+              child: const CustomButton(namaButton: 'Verify'),
             )
           ],
         ),
