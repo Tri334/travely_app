@@ -55,9 +55,13 @@ class RegisterCubit extends Cubit<RegisterState> {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: state.email.value, password: state.password.value)
-          .then((value) => emit(state.copyWith(
-              status: FormzStatus.submissionSuccess,
-              user: FirebaseAuth.instance.currentUser)));
+          .then((value) async {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: state.email.value, password: state.password.value);
+        emit(state.copyWith(
+            status: FormzStatus.submissionSuccess,
+            user: FirebaseAuth.instance.currentUser));
+      });
     } catch (e) {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }

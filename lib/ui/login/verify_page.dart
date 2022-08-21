@@ -91,7 +91,8 @@ class VerifyPage extends StatelessWidget {
                       onTap: () {
                         if (state.verify) {
                           try {
-                            user!.sendEmailVerification();
+                            FirebaseAuth.instance.currentUser!
+                                .sendEmailVerification();
                             showDialog(
                               context: context,
                               builder: (context) {

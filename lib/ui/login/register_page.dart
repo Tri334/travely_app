@@ -137,13 +137,15 @@ class RegisterPage extends StatelessWidget {
                     enable = true;
                   }
                   return GestureDetector(
-                      onTap: () {
-                        context
+                      onTap: () async {
+                        await context
                             .read<RegisterCubit>()
                             .signUpEmailAndPassword()
-                            .then((value) {
-                          context.goNamed('verify', extra: state.user);
+                            .then((value) async {
+                          context.goNamed('verify',
+                              extra: FirebaseAuth.instance.currentUser);
                         });
+                        log(state.user.toString());
                       },
                       child:
                           CustomButton(namaButton: 'Sign Up', enable: enable));
